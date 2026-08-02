@@ -6,12 +6,60 @@
 <title>Atike Pvt Ltd — Putani &amp; Sharvari | Quality Kidswear at Honest Prices</title>
 <meta name="description" content="Atike Pvt Ltd is a trusted supplier, distributor and seller of children's fashion — home to Putani, the flagship kidswear retail brand, and Sharvari, our premium pure-cotton children's clothing label." />
 
+<!-- TODO: replace REPLACE_WITH_DOMAIN with the real production domain before launch -->
+<link rel="canonical" href="https://REPLACE_WITH_DOMAIN.example/" />
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="/favicon.png" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Atike Pvt Ltd" />
+<meta property="og:locale" content="en_IN" />
+<meta property="og:title" content="Atike Pvt Ltd — Putani &amp; Sharvari | Quality Kidswear at Honest Prices" />
+<meta property="og:description" content="A trusted supplier, distributor and seller of children's fashion — home to Putani, the flagship kidswear retail brand, and Sharvari, our premium pure-cotton children's clothing label." />
+<meta property="og:image" content="https://REPLACE_WITH_DOMAIN.example/og-image.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://REPLACE_WITH_DOMAIN.example/" />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Atike Pvt Ltd — Putani &amp; Sharvari | Quality Kidswear at Honest Prices" />
+<meta name="twitter:description" content="A trusted supplier, distributor and seller of children's fashion — home to Putani, the flagship kidswear retail brand, and Sharvari, our premium pure-cotton children's clothing label." />
+<meta name="twitter:image" content="https://REPLACE_WITH_DOMAIN.example/og-image.jpg" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&family=Nunito:wght@400;500;600;700&family=Noto+Sans+Kannada:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
 <link rel="stylesheet" href="/src/style.css" />
 <link rel="stylesheet" href="/src/glass.css" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ClothingStore",
+  "name": "Atike Pvt Ltd",
+  "description": "Trusted supplier, distributor and seller of children's fashion — home to Putani, the flagship kidswear retail brand, and Sharvari, our premium pure-cotton children's clothing label.",
+  "image": "https://REPLACE_WITH_DOMAIN.example/og-image.jpg",
+  "email": "info@atike.in",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Hunsur",
+    "addressRegion": "Karnataka",
+    "addressCountry": "IN"
+  },
+  "brand": [
+    { "@type": "Brand", "name": "Putani" },
+    { "@type": "Brand", "name": "Sharvari" }
+  ],
+  "sameAs": [
+    "https://chat.whatsapp.com/LszkuzwGuI5IoobzXmngid"
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -27,7 +75,7 @@
   muted
   playsinline
   preload="auto"
-  poster="/img/hero-reference.png"
+  poster="/img/hero-reference.jpg"
 >
   <source src="/bg.mp4" type="video/mp4" />
 </video>
@@ -48,7 +96,28 @@
     <a href="#experience">Visit Us</a>
   </nav>
   <a class="nav__cta glass-btn glass-btn--ghost" href="#putani">Explore Putani</a>
+  <button
+    class="nav__toggle"
+    id="navToggle"
+    type="button"
+    aria-expanded="false"
+    aria-controls="mobileMenu"
+    aria-label="Open menu"
+  >
+    <span class="nav__toggle-bar"></span>
+    <span class="nav__toggle-bar"></span>
+    <span class="nav__toggle-bar"></span>
+  </button>
 </header>
+
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <nav class="mobile-menu__links" aria-label="Mobile">
+    <a href="#putani">Putani</a>
+    <a href="#sharvari">Sharvari</a>
+    <a href="#experience">Visit Us</a>
+  </nav>
+  <a class="glass-btn glass-btn--primary mobile-menu__cta" href="#putani">Explore Putani</a>
+</div>
 
 <main id="page">
 
@@ -120,7 +189,7 @@
     <div class="split-section__media glass">
       <video
         src="/videos/putani-store.mp4"
-        poster="/img/retail-reference.png"
+        poster="/img/retail-reference.jpg"
         autoplay
         muted
         loop
@@ -154,7 +223,7 @@
     <div class="split-section__media glass">
       <video
         src="/videos/sharvari-scene.mp4"
-        poster="/img/festive-reference.png"
+        poster="/img/festive-reference.jpg"
         autoplay
         muted
         loop
@@ -188,7 +257,7 @@
     <div class="craft__media glass reveal-up">
       <video
         src="/videos/material-detail.mp4"
-        poster="/img/material-reference.png"
+        poster="/img/material-reference.jpg"
         autoplay
         muted
         loop
@@ -265,7 +334,7 @@
   <!-- 8. BRAND EXPERIENCE CTA -->
   <section id="experience" class="experience">
     <div class="experience__media glass">
-      <img src="/img/experience-reference.png" alt="Premium folded kidswear with gift-style packaging" loading="lazy" />
+      <img src="/img/experience-reference.jpg" alt="Premium folded kidswear with gift-style packaging" loading="lazy" />
     </div>
     <div class="experience__copy">
       <p class="section-eyebrow">Visit The Brand</p>

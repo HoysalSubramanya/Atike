@@ -62,7 +62,7 @@ website/
 │  ├─ style.css         # brand tokens, layout, sections, layer architecture
 │  └─ glass.css         # glass panels, buttons, cards (loads after style.css)
 └─ public/
-   ├─ bg.mp4            # all-keyframe re-encoded scroll background video
+   ├─ bg.mp4            # frequent-keyframe re-encoded scroll background video
    └─ img/               # reference images used inline in sections
 ```
 
@@ -71,8 +71,9 @@ website/
 The raw Higgsfield-generated video lives at
 [`assets/videos/brand-scroll-background.mp4`](../assets/videos/brand-scroll-background.mp4)
 (project root). Raw AI-generated MP4s seek poorly during scroll scrubbing, so it
-was re-encoded to **all-keyframe H.264** (`-g 1 -keyint_min 1 -sc_threshold 0`)
-and copied to `website/public/bg.mp4` using the helper script at
+was re-encoded with a **short, fixed keyframe interval** (`-g 8 -keyint_min 8
+-sc_threshold 0` — a keyframe every 8 frames, roughly every ⅓ second) and
+copied to `website/public/bg.mp4` using the helper script at
 [`scripts/swap-bg-video.sh`](../scripts/swap-bg-video.sh) (project root):
 
 ```bash
@@ -110,8 +111,70 @@ run, but the video-scrub ScrollTrigger is skipped entirely on touch devices.
 - **Store address**: the footer currently lists "Hunsur, Karnataka" per the
   brand kit's target audience section — add a full street address if you want
   one displayed.
+- **Domain placeholder**: `index.html` has five occurrences of
+  `https://REPLACE_WITH_DOMAIN.example` (canonical URL, Open Graph `og:url` /
+  `og:image`, Twitter `twitter:image`, and the JSON-LD `image` field) — replace
+  all five with the real production domain once one exists. Until then, social
+  link previews (WhatsApp, etc.) and the canonical tag will point at a
+  non-existent placeholder domain rather than break silently.
 - Re-run `npm run build -- --base=./` after any content or asset change and
   spot-check the output with `npx serve dist`.
+
+## SEO &amp; sharing
+
+- **Favicon**: `public/favicon.png` (32×32) and `public/apple-touch-icon.png`
+  (180×180) are generated from the Atike icon mark (`assets/logos/atike-logo-transparent.png`,
+  the icon alone with no wordmark — legible at small sizes, unlike the full
+  lockup). Regenerate both if the logo changes.
+- **Social preview image**: `public/og-image.jpg` (1200×630) is cropped from
+  the hero reference photo. Used for Open Graph and Twitter Card previews —
+  regenerate if you want a different image shared when links are posted.
+- **Structured data**: a `ClothingStore` JSON-LD block sits in `index.html`'s
+  `&lt;head&gt;`, built only from confirmed facts (name, description, brands,
+  Hunsur/Karnataka locality, email, WhatsApp link) — no street address, phone,
+  or opening hours are included since none were confirmed. Add them once
+  available; don't fabricate placeholder values for structured data, since
+  inaccurate business data in schema.org markup can affect search trust.
+
+## Security headers
+
+Since the hosting platform wasn't decided yet, config for the three most
+likely static hosts is included and ready to go:
+
+- **Netlify**: `netlify.toml` (build config) + `public/_headers` (copied to
+  `dist/_headers` on build — Netlify reads this automatically).
+- **Cloudflare Pages**: also reads `dist/_headers` — no extra config needed.
+- **Vercel**: `vercel.json` at the `website/` root, with the same headers
+  defined in its own `headers` block (Vercel doesn't read `_headers` files).
+- **GitHub Pages**: cannot serve custom HTTP headers at all — it's static
+  file hosting with no per-response header control. If you deploy there,
+  the CSP and other security headers below simply won't apply unless you
+  put a CDN (e.g. Cloudflare) in front of it.
+
+All three configs set the same policy:
+
+- A `Content-Security-Policy` scoped to what this site actually loads —
+  same-origin scripts/media/images, Google Fonts for `style-src`/`font-src`,
+  and one specific SHA-256 hash allowlisting the inline JSON-LD structured
+  data script (not a blanket `'unsafe-inline'` for scripts). `style-src`
+  does need `'unsafe-inline'`, because GSAP animates by writing directly to
+  element `style` attributes — there's no practical way around this for a
+  GSAP-driven site, and inline *styles* are a much narrower attack surface
+  than inline *scripts*.
+- `X-Frame-Options: DENY` and `frame-ancestors 'none'` (clickjacking
+  protection — meta-tag CSP can't express `frame-ancestors` at all, which is
+  part of why this needs real HTTP headers, not just a `&lt;meta&gt;` tag).
+- `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`,
+  and a `Permissions-Policy` disabling camera/microphone/geolocation/payment/USB,
+  none of which this site uses.
+
+This exact policy was tested locally (temporarily, via a meta tag + a
+`securitypolicyviolation` listener, both removed afterward) against a full
+scroll cycle, every GSAP-driven animation, the mobile menu, and the JSON-LD
+block — zero violations. If you ever add a new external resource (an
+analytics script, a different font host, etc.), you'll need to add it to the
+policy in **both** `public/_headers` and `vercel.json`, or that resource will
+be silently blocked in production.
 
 ## Brand tokens
 

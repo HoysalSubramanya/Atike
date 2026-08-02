@@ -63,6 +63,27 @@ a {
   text-decoration: none;
 }
 
+/* ---------------------------------------------------------
+   Accessibility: focus states + reduced motion
+   --------------------------------------------------------- */
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent-3);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 ul {
   margin: 0;
   padding: 0;
@@ -205,10 +226,108 @@ h1, h2, h3, p {
   padding: 0.6rem 1.2rem;
 }
 
+.nav__toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.nav__toggle-bar {
+  width: 22px;
+  height: 2px;
+  background: var(--text-inverse);
+  border-radius: 2px;
+  transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+}
+
+.nav__toggle[aria-expanded="true"] .nav__toggle-bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav__toggle[aria-expanded="true"] .nav__toggle-bar:nth-child(2) {
+  opacity: 0;
+}
+
+.nav__toggle[aria-expanded="true"] .nav__toggle-bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
 @media (max-width: 860px) {
-  .nav__links {
+  .nav__links,
+  .nav__cta.glass-btn {
     display: none;
   }
+
+  .nav__toggle {
+    display: flex;
+  }
+}
+
+/* ---------------------------------------------------------
+   Mobile menu — full-screen overlay shown below 860px
+   --------------------------------------------------------- */
+
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.2rem;
+  background: rgba(8, 6, 4, 0.94);
+  backdrop-filter: blur(24px) saturate(1.1);
+  -webkit-backdrop-filter: blur(24px) saturate(1.1);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-16px);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease), visibility 0s linear 0.35s;
+}
+
+.mobile-menu.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease), visibility 0s;
+}
+
+.mobile-menu__links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.7rem;
+}
+
+.mobile-menu__links a {
+  font-family: var(--font-head);
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--text-inverse);
+}
+
+.mobile-menu__cta {
+  margin-top: 0.4rem;
+}
+
+.nav__toggle:focus-visible {
+  outline: 2px solid var(--accent-3);
+  outline-offset: 4px;
+}
+
+.mobile-menu__links a:focus-visible {
+  outline: 2px solid var(--accent-3);
+  outline-offset: 6px;
+  border-radius: 4px;
 }
 
 /* ---------------------------------------------------------
@@ -739,7 +858,7 @@ section {
     display: block;
     position: fixed;
     inset: 0;
-    background-image: url("/img/hero-reference.png");
+    background-image: url("/img/hero-reference.jpg");
     background-size: cover;
     background-position: center;
     z-index: 0;
