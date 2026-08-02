@@ -261,6 +261,10 @@ h1, h2, h3, p {
   transform: translateY(-7px) rotate(-45deg);
 }
 
+/* 860px here is purely "does the nav content fit horizontally" — it's
+   intentionally a different number from main.js's 769px isTouch threshold,
+   which gates the video/parallax layer instead. See the comment next to
+   `isTouch` in main.js for why they don't need to match. */
 @media (max-width: 860px) {
   .nav__links,
   .nav__cta.glass-btn {
