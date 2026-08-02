@@ -265,8 +265,14 @@ function init() {
     setupVideoScrub();
   }
 
-  setupReveals();
+  // setupImpact() must run before setupReveals(): it creates the #impact
+  // pin, which inserts a spacer into the DOM. Reveal-up ScrollTriggers
+  // created before that spacer exists calculate their positions against
+  // the pre-pin layout and never recover, even after ScrollTrigger.refresh()
+  // -- every element below the pin ends up with a trigger position that's
+  // off by roughly the spacer's height.
   setupImpact();
+  setupReveals();
   setupParallax();
   setupLazyImageRefresh();
   setupMobileMenu(lenis);
