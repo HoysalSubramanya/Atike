@@ -6,6 +6,15 @@ gsap.registerPlugin(ScrollTrigger);
 
 const bgVideo = document.getElementById("bgv");
 const preloader = document.getElementById("preloader");
+
+// 769px here intentionally matches the CSS breakpoint that hides the whole
+// .bg-video layer (`max-width: 768px` in style.css) — this gate is about
+// whether the cinematic video/parallax layer exists at all, not about nav
+// layout. It does NOT need to match the unrelated 860px breakpoint that
+// controls when the nav switches to the hamburger menu (that one is purely
+// about whether the nav links fit horizontally) — a normal mouse-driven
+// browser window at, say, 800px wide has no reason to lose scroll-scrub
+// just because the header ran out of horizontal space for inline links.
 const isTouch = window.matchMedia("(hover: none)").matches || window.innerWidth < 769;
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
