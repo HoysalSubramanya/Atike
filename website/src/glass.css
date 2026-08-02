@@ -1,0 +1,149 @@
+/* =========================================================
+   Glass panels, buttons, cards
+   Loaded after style.css — selectors here win ties.
+   ========================================================= */
+
+.glass {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 251, 244, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(18px) saturate(1.15);
+  -webkit-backdrop-filter: blur(18px) saturate(1.15);
+  box-shadow: 0 20px 60px rgba(10, 8, 5, 0.28);
+}
+
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.14),
+    transparent 40%,
+    rgba(249, 115, 22, 0.06)
+  );
+  pointer-events: none;
+}
+
+.glass > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Split-section media / experience media sit on brighter frames —
+   give them a touch more contrast so the frame edge stays visible */
+.split-section__media.glass,
+.experience__media.glass {
+  background: rgba(255, 251, 244, 0.08);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+/* ---------------------------------------------------------
+   Buttons
+   --------------------------------------------------------- */
+
+.glass-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.6rem;
+  border-radius: 999px;
+  font-family: var(--font);
+  font-size: 0.92rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease), opacity 0.35s var(--ease);
+}
+
+.glass-btn:hover {
+  transform: translateY(-2px);
+}
+
+.glass-btn--primary {
+  background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 70%, #ffffff 20%));
+  color: #ffffff;
+  box-shadow: 0 14px 32px rgba(37, 99, 235, 0.35);
+}
+
+.glass-btn--primary:hover {
+  box-shadow: 0 18px 40px rgba(37, 99, 235, 0.45);
+}
+
+.glass-btn--accent {
+  background: linear-gradient(135deg, var(--accent-2), color-mix(in srgb, var(--accent-2) 70%, #ffffff 20%));
+  color: #ffffff;
+  box-shadow: 0 14px 32px rgba(249, 115, 22, 0.32);
+}
+
+.glass-btn--accent:hover {
+  box-shadow: 0 18px 40px rgba(249, 115, 22, 0.42);
+}
+
+.glass-btn--ghost {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: var(--text-inverse);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* ---------------------------------------------------------
+   Brand marks
+   Logos sit directly on the video/glass composition — no card
+   or box behind them. Each gets only a soft shadow (or, on the
+   near-black footer, a faint glow) so it stays legible without
+   reading as a sticker pasted over the design.
+   --------------------------------------------------------- */
+
+.brand-mark {
+  display: block;
+  width: auto;
+}
+
+.brand-mark--nav {
+  height: 36px;
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.45)) drop-shadow(0 0 16px rgba(0, 0, 0, 0.25));
+}
+
+.brand-mark--footer {
+  height: 50px;
+  margin-bottom: 1.2rem;
+  filter: drop-shadow(0 0 1px rgba(255, 251, 244, 0.65)) drop-shadow(0 0 22px rgba(255, 251, 244, 0.2));
+}
+
+/* Putani / Sharvari use their original artwork (own background,
+   not cut out) — frame it like the site's other photo cards
+   (split-section__media, experience__media) instead of floating
+   it loose, so it reads as a placed object, not a sticker. */
+
+.brand-mark-frame {
+  display: inline-block;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 14px 34px rgba(10, 8, 5, 0.4);
+  margin-bottom: 1.3rem;
+}
+
+.brand-mark-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.brand-mark-frame--putani {
+  width: 104px;
+}
+
+.brand-mark-frame--sharvari {
+  width: 176px;
+}
+
+.family-card.glass {
+  background: rgba(255, 251, 244, 0.12);
+}

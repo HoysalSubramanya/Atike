@@ -1,0 +1,751 @@
+/* =========================================================
+   Atike Pvt Ltd — Putani / Sharvari brand landing page
+   Brand tokens sourced from copy/brand-kit.md
+   ========================================================= */
+
+:root {
+  /* Brand palette (brand-kit.md §6) */
+  --blue: #2563eb;
+  --yellow: #fbbf24;
+  --coral: #f97316;
+  --white: #ffffff;
+  --gray: #374151;
+
+  /* Semantic tokens */
+  --bg: #16130e;                 /* warm-dark overlay base, tint + footer */
+  --bg-soft: #1f1a13;
+  --surface: rgba(255, 255, 255, 0.92);   /* light glass card surface */
+  --surface-2: rgba(255, 255, 255, 0.72);
+  --text: var(--gray);
+  --text-inverse: #fffaf0;
+  --muted: #6b7280;
+  --accent: var(--blue);
+  --accent-2: var(--coral);
+  --accent-3: var(--yellow);
+  --line: rgba(55, 65, 81, 0.14);
+  --line-inverse: rgba(255, 255, 255, 0.22);
+
+  /* Typography (brand-kit.md §7) */
+  --font-head: "Baloo 2", "Poppins", sans-serif;
+  --font: "Poppins", "Nunito", sans-serif;
+  --font-kn: "Noto Sans Kannada", sans-serif;
+
+  --radius: 20px;
+  --radius-sm: 12px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+  scroll-behavior: auto;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--bg);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+h1, h2, h3, p {
+  margin: 0;
+}
+
+.nav__logo,
+.hero__title,
+.impact__text,
+.section-head,
+.family-card h3,
+.footer__big,
+.preloader__word {
+  font-family: var(--font-head);
+}
+
+/* ---------------------------------------------------------
+   Preloader
+   --------------------------------------------------------- */
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  transition: opacity 0.6s var(--ease), visibility 0.6s var(--ease);
+}
+
+.preloader__word {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 700;
+  color: var(--text-inverse);
+  letter-spacing: 0.02em;
+  opacity: 0.9;
+}
+
+.preloader.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------
+   Layer architecture
+   .bg-video (0) < .bg-tint (1) < .motion-glow (2) < #page (10)
+   --------------------------------------------------------- */
+
+.bg-video {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  background: #000;
+}
+
+.bg-tint {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(15, 12, 8, 0.25) 0%, rgba(15, 12, 8, 0.55) 55%, rgba(12, 9, 6, 0.82) 100%),
+    linear-gradient(180deg, rgba(10, 8, 5, 0.35) 0%, rgba(10, 8, 5, 0.55) 100%);
+}
+
+.motion-glow {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.5;
+  background:
+    radial-gradient(38vw 38vw at 12% 18%, color-mix(in srgb, var(--accent-3) 22%, transparent) 0%, transparent 60%),
+    radial-gradient(32vw 32vw at 88% 82%, color-mix(in srgb, var(--accent-2) 18%, transparent) 0%, transparent 60%);
+  mix-blend-mode: screen;
+}
+
+.mobile-poster {
+  display: none;
+}
+
+#page {
+  position: relative;
+  z-index: 10;
+}
+
+/* ---------------------------------------------------------
+   Nav
+   --------------------------------------------------------- */
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: clamp(0.85rem, 2.2vw, 1.25rem) clamp(1.25rem, 5vw, 3.5rem);
+  background: rgba(8, 6, 4, 0.55);
+  backdrop-filter: blur(18px) saturate(1.15);
+  -webkit-backdrop-filter: blur(18px) saturate(1.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nav__logo {
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav__links {
+  display: flex;
+  gap: clamp(1rem, 2.5vw, 2rem);
+}
+
+.nav__links a {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--text-inverse);
+  opacity: 0.85;
+  transition: opacity 0.25s var(--ease);
+}
+
+.nav__links a:hover {
+  opacity: 1;
+}
+
+.nav__cta {
+  font-size: 0.85rem;
+  padding: 0.6rem 1.2rem;
+}
+
+@media (max-width: 860px) {
+  .nav__links {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------
+   Section shells
+   --------------------------------------------------------- */
+
+section {
+  position: relative;
+  padding: clamp(4rem, 10vh, 8rem) clamp(1.25rem, 5vw, 6rem);
+}
+
+.section-eyebrow {
+  font-family: var(--font);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-3);
+  margin-bottom: 0.9rem;
+}
+
+.section-eyebrow--accent {
+  color: var(--accent-2);
+}
+
+.section-eyebrow--center {
+  text-align: center;
+}
+
+.section-head {
+  font-size: clamp(1.8rem, 3.6vw, 3rem);
+  font-weight: 700;
+  color: var(--text-inverse);
+  line-height: 1.15;
+  margin-bottom: 1.1rem;
+}
+
+.section-head--center {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 30ch;
+}
+
+.section-lead {
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  color: var(--text-inverse);
+  opacity: 0.82;
+  max-width: 46ch;
+  line-height: 1.6;
+}
+
+/* ---------------------------------------------------------
+   1. Hero
+   --------------------------------------------------------- */
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 6rem;
+}
+
+.hero__inner {
+  max-width: 720px;
+}
+
+.eyebrow {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-inverse);
+  opacity: 0.75;
+  margin-bottom: 1.4rem;
+}
+
+.hero__brands {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 1.6rem;
+}
+
+.brand-chip {
+  padding: 0.45rem 0.95rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-inverse);
+}
+
+.hero__title {
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(2.6rem, 7vw, 5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  color: var(--text-inverse);
+  margin-bottom: 1.2rem;
+}
+
+.hero__tagline {
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  font-weight: 600;
+  color: var(--accent-3);
+  margin-bottom: 1.1rem;
+}
+
+.hero__sub {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--text-inverse);
+  opacity: 0.82;
+  max-width: 52ch;
+  margin-bottom: 2.2rem;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+
+.scroll-cue {
+  position: absolute;
+  left: clamp(1.25rem, 5vw, 6rem);
+  bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-inverse);
+  opacity: 0.65;
+}
+
+.scroll-cue span {
+  width: 1px;
+  height: 28px;
+  background: var(--text-inverse);
+  opacity: 0.5;
+}
+
+/* ---------------------------------------------------------
+   2. Impact (pinned)
+   --------------------------------------------------------- */
+
+.impact {
+  min-height: 100vh;
+  padding: 22vh clamp(1.25rem, 5vw, 6rem);
+}
+
+.impact__pin {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.impact__text {
+  font-family: var(--font-head);
+  font-size: clamp(1.6rem, 4.4vw, 3.3rem);
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
+  color: var(--text-inverse);
+}
+
+.impact__text .word {
+  display: inline-block;
+  margin: 0 0.14em;
+}
+
+/* ---------------------------------------------------------
+   3 & 4. Split sections (Why Putani / Why Sharvari)
+   --------------------------------------------------------- */
+
+.split-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+
+.split-section--reverse {
+  direction: rtl;
+}
+
+.split-section--reverse > * {
+  direction: ltr;
+}
+
+.split-section__media {
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+}
+
+.split-section__media img,
+.split-section__media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.split-section__copy {
+  max-width: 46ch;
+}
+
+.tick-list {
+  margin-top: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.tick-list li {
+  position: relative;
+  padding-left: 1.6rem;
+  font-size: 1rem;
+  color: var(--text-inverse);
+  opacity: 0.88;
+  line-height: 1.5;
+}
+
+.tick-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-3);
+}
+
+@media (max-width: 860px) {
+  .split-section,
+  .split-section--reverse {
+    grid-template-columns: 1fr;
+    direction: ltr;
+  }
+}
+
+/* ---------------------------------------------------------
+   5. Design & Materials
+   The video is the section — copy and material tags sit
+   directly on top of it instead of in separate boxes.
+   --------------------------------------------------------- */
+
+.craft {
+  padding-top: clamp(2.5rem, 6vh, 5rem);
+  padding-bottom: clamp(2.5rem, 6vh, 5rem);
+}
+
+.craft__media {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  min-height: 78vh;
+}
+
+.craft__media video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.craft__media .craft__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 8, 5, 0.6) 0%,
+    rgba(10, 8, 5, 0.05) 30%,
+    rgba(10, 8, 5, 0.05) 58%,
+    rgba(10, 8, 5, 0.78) 100%
+  );
+  pointer-events: none;
+}
+
+.craft__media .craft__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(1.75rem, 4vw, 3.5rem);
+}
+
+.craft__copy {
+  max-width: 56ch;
+}
+
+.craft__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.craft__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-inverse);
+}
+
+.craft__tag-num {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 0.78rem;
+  color: var(--accent-3);
+}
+
+@media (max-width: 768px) {
+  .craft__media {
+    min-height: 64vh;
+  }
+}
+
+/* ---------------------------------------------------------
+   6. Made for Families
+   --------------------------------------------------------- */
+
+.families__grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+
+.family-card {
+  border-radius: var(--radius-sm);
+  text-align: center;
+  overflow: hidden;
+}
+
+.family-card__media {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+}
+
+.family-card__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.family-card h3 {
+  margin-top: 1.3rem;
+  padding: 0 1.3rem;
+  font-size: 1rem;
+  color: var(--text-inverse);
+  margin-bottom: 0.4rem;
+}
+
+.family-card p {
+  padding: 0 1.3rem 1.6rem;
+  font-size: 0.85rem;
+  color: var(--text-inverse);
+  opacity: 0.78;
+  line-height: 1.5;
+}
+
+@media (max-width: 960px) {
+  .families__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .families__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------------------------------------------------------
+   8. Brand Experience CTA
+   --------------------------------------------------------- */
+
+.experience {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+
+.experience__media {
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+}
+
+.experience__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.experience__copy {
+  max-width: 50ch;
+}
+
+.experience__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 1.8rem;
+}
+
+@media (max-width: 860px) {
+  .experience {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------------------------------------------------------
+   9. Footer — full-bleed dark band
+   --------------------------------------------------------- */
+
+.footer {
+  position: relative;
+  z-index: 10;
+  margin-top: 12vh;
+  padding: 14vh clamp(1.25rem, 5vw, 6rem) 3rem;
+  background: var(--bg);
+}
+
+.footer::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: 40vh;
+  background: linear-gradient(to bottom, transparent, var(--bg));
+  pointer-events: none;
+}
+
+.footer__inner {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 2rem;
+  padding-bottom: 3.5rem;
+  border-bottom: 1px solid var(--line-inverse);
+}
+
+.footer__big {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  color: var(--text-inverse);
+  margin-bottom: 0.4rem;
+}
+
+.footer__tag {
+  font-size: 0.9rem;
+  color: var(--text-inverse);
+  opacity: 0.7;
+}
+
+.footer__col-head {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-3);
+  margin-bottom: 0.8rem;
+}
+
+.footer__col a,
+.footer__col p {
+  display: block;
+  font-size: 0.92rem;
+  color: var(--text-inverse);
+  opacity: 0.8;
+  margin-bottom: 0.5rem;
+}
+
+.footer__col a:hover {
+  opacity: 1;
+}
+
+.footer__legal {
+  margin-top: 2rem;
+  font-size: 0.8rem;
+  color: var(--text-inverse);
+  opacity: 0.5;
+}
+
+@media (max-width: 760px) {
+  .footer__inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ---------------------------------------------------------
+   Scroll reveal base state (animated via GSAP in main.js)
+   --------------------------------------------------------- */
+
+.reveal-up {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+/* ---------------------------------------------------------
+   Mobile fallback for scroll-scrubbed video
+   --------------------------------------------------------- */
+
+@media (hover: none), (max-width: 768px) {
+  .bg-video {
+    display: none;
+  }
+
+  .mobile-poster {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background-image: url("/img/hero-reference.png");
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+
+  section {
+    padding: 3.5rem 1.25rem;
+  }
+}
