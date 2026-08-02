@@ -516,7 +516,7 @@ section {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: clamp(2rem, 5vw, 5rem);
-  align-items: center;
+  align-items: start;
 }
 
 .split-section--reverse {
