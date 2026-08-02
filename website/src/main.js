@@ -7,6 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 const bgVideo = document.getElementById("bgv");
 const preloader = document.getElementById("preloader");
 const isTouch = window.matchMedia("(hover: none)").matches || window.innerWidth < 769;
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 let lastVideoT = -1;
 
@@ -26,8 +27,8 @@ function initPreloader() {
 
 function initLenis() {
   const lenis = new Lenis({
-    lerp: 0.1,
-    smoothWheel: true,
+    lerp: prefersReducedMotion ? 1 : 0.1,
+    smoothWheel: !prefersReducedMotion,
   });
 
   lenis.on("scroll", ScrollTrigger.update);
@@ -77,6 +78,11 @@ function setupVideoScrub() {
    --------------------------------------------------------- */
 
 function setupReveals() {
+  if (prefersReducedMotion) {
+    gsap.set(".reveal-up", { opacity: 1, y: 0 });
+    return;
+  }
+
   gsap.utils.toArray(".reveal-up").forEach((el) => {
     gsap.to(el, {
       opacity: 1,
@@ -113,6 +119,11 @@ function setupImpact() {
     });
   }
 
+  if (prefersReducedMotion) {
+    render(1);
+    return;
+  }
+
   render(0);
 
   ScrollTrigger.create({
@@ -131,7 +142,7 @@ function setupImpact() {
    --------------------------------------------------------- */
 
 function setupParallax() {
-  if (isTouch) return;
+  if (isTouch || prefersReducedMotion) return;
 
   gsap.utils.toArray(".split-section__media, .experience__media, .craft__media").forEach((el) => {
     gsap.fromTo(
@@ -148,6 +159,58 @@ function setupParallax() {
         },
       }
     );
+  });
+}
+
+/* ---------------------------------------------------------
+   Mobile menu — hamburger toggle + full-screen overlay
+   --------------------------------------------------------- */
+
+function setupMobileMenu(lenis) {
+  const toggle = document.getElementById("navToggle");
+  const menu = document.getElementById("mobileMenu");
+  if (!toggle || !menu) return;
+
+  const links = [...menu.querySelectorAll("a")];
+
+  function openMenu() {
+    toggle.setAttribute("aria-expanded", "true");
+    toggle.setAttribute("aria-label", "Close menu");
+    menu.classList.add("is-open");
+    menu.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    lenis.stop();
+    links[0]?.focus();
+  }
+
+  function closeMenu(returnFocus = true) {
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-label", "Open menu");
+    menu.classList.remove("is-open");
+    menu.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    lenis.start();
+    if (returnFocus) toggle.focus();
+  }
+
+  toggle.addEventListener("click", () => {
+    const isOpen = toggle.getAttribute("aria-expanded") === "true";
+    if (isOpen) closeMenu();
+    else openMenu();
+  });
+
+  links.forEach((link) => link.addEventListener("click", () => closeMenu(false)));
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
+      closeMenu();
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 860 && toggle.getAttribute("aria-expanded") === "true") {
+      closeMenu(false);
+    }
   });
 }
 
@@ -189,7 +252,7 @@ function init() {
 
   const lenis = initLenis();
 
-  if (!isTouch) {
+  if (!isTouch && !prefersReducedMotion) {
     setupVideoScrub();
   }
 
@@ -197,6 +260,7 @@ function init() {
   setupImpact();
   setupParallax();
   setupLazyImageRefresh();
+  setupMobileMenu(lenis);
 
   initDevHooks(lenis);
 
